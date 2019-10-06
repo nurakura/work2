@@ -1,12 +1,20 @@
+.PHONY : all debug
 
-all : work.out
+all : obj debug work.out
+	$(info $(OBJS))
+	$(info $(SRCS))
 
-SRC = ./src/*
-#OBJS = for(a in $(SRC))
+SRCS = $(wildcard ./src/*)
+OBJS = $(patsubst %.cc,./obj/%.o, $(notdir $(SRCS)))
 
-%.cc : %.o
-	g++ $? -g
+debug :
+
+obj:
+	mkdir obj
+
+%.o : %.cc
+	echo compile
+	echo g++ -g -c -o $? obj/$<.o
 
 work.out : $(OBJS)
-
-
+	echo link
